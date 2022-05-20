@@ -1,32 +1,38 @@
-resource "aws_vpc" "_" {
-  cidr_block = var.vpc_cidr
-
-  enable_dns_support   = var.enable_dns_support
-  enable_dns_hostnames = var.enable_dns_hostnames
-}
-
-resource "aws_internet_gateway" "_" {
-  vpc_id = aws_vpc._.id
-}
-
-resource "aws_route_table" "_" {
-  vpc_id = aws_vpc._.id
-
-  dynamic "route" {
-    for_each = var.route
-
-    content {
-      cidr_block     = route.value.cidr_block
-      gateway_id     = route.value.gateway_id
-      instance_id    = route.value.instance_id
-      nat_gateway_id = route.value.nat_gateway_id
+resource "aws_vpc" "prod-vpc" {
+    cidr_block = "10.0.0.0/16"
+    enable_dns_support = "true" #gives you an internal domain name
+    enable_dns_hostnames = "true" #gives you an internal host name
+    enable_classiclink = "false"
+    instance_tenancy = "default"    
+    
+    tags = {
+        Name = "prod-vpc"
     }
-  }
 }
-
-resource "aws_route_table_association" "_" {
-  count          = length(var.subnet_ids)
-
-  subnet_id      = element(var.subnet_ids, count.index)
-  route_table_id = aws_route_table._.id
+resource "aws_subnet" "prod-subnet-public-1" {
+    vpc_id = "${aws_vpc.prod-vpc.id}"
+    cidr_block = "10.0.1.0/24"
+    map_public_ip_on_launch = "true" //it makes this a public subnet
+    availability_zone = "us-east-2a"
+    tags ={
+        Name = "prod-subnet-public-1"
+    }
+}
+resource "aws_subnet" "prod-subnet-private-1" {
+    vpc_id = "${aws_vpc.prod-vpc.id}"
+    cidr_block = "10.0.2.0/24"
+    map_public_ip_on_launch = "false" //it makes this a private subnet
+    availability_zone = "us-east-2b"
+    tags ={
+        Name = "prod-subnet-private-1"
+    }
+}
+resource "aws_subnet" "prod-subnet-private-2" {
+    vpc_id = "${aws_vpc.prod-vpc.id}"
+    cidr_block = "10.0.3.0/24"
+    map_public_ip_on_launch = "false" //it makes this a private subnet
+    availability_zone = "us-east-2c"
+    tags ={
+        Name = "prod-subnet-private-2"
+    }
 }

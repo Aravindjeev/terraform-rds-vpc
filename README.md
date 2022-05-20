@@ -13,6 +13,7 @@ This file contains resource configuration for :
 - Internet gateway
 - Route tables
 - Security Group
+
 ##rds.tf
 This file contains resource configuration for RDS instance
 ##vpc.tf

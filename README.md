@@ -20,10 +20,10 @@ This file contains resouce configuration for VPC and subnets.
 
 ## Getting started
 Once you have everything configured, please execute the below commands:
-` terraform init ` to initialize the providers
-` terraform plan ` to determine the desired state of all the resources it declares
-` terraform apply ` to execute the actions proposed in a Terraform plan to create and update infrastructure.
+- ` terraform init ` to initialize the providers
+- ` terraform plan ` to determine the desired state of all the resources it declares
+- ` terraform apply ` to execute the actions proposed in a Terraform plan to create and update infrastructure.
 
 You can resources see being created in AWS.
 
-You can do ` terraform destroy ` to delete all the created resource through terraform apply.
+- You can do ` terraform destroy ` to delete all the created resource through terraform apply.
